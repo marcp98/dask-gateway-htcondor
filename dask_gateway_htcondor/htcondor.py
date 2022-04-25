@@ -103,6 +103,7 @@ class HTCondorBackend(JobQueueBackend):
                 execution_command=" ".join(self.get_scheduler_command(cluster)))
             env = self.get_scheduler_env(cluster)
             jdl = htcondor_create_jdl(cluster_config=cluster.config,
+                execution_script=execution_script,
                 log_dir=os.path.join(staging_dir, "logs_scheduler_{cluster.name}"),
                 cpus=cluster.config.scheduler_cores,
                 mem=htcondor_memory_format(cluster.config.scheduler_memory))
