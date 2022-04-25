@@ -9,11 +9,11 @@ import math, os, pwd, re, shutil
 def htcondor_create_execution_script(execution_script, setup_command, execution_command):
     # write script to staging_dir
     with open(execution_script, "w") as f:
-        f.writelines([
+        f.write("\n".join([
             "#!/bin/sh",
             setup_command,
             execution_command
-        ])
+        ]))
 
 def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem):
     # ensure log dir is present otherwise condor_submit will fail
