@@ -60,7 +60,7 @@ class HTCondorBackend(JobQueueBackend):
     """A backend for deploying Dask on a HTCondor cluster."""
 
     cluster_config_class = Type(
-        "dask_gateway_htcondor.HTCondorClusterConfig",
+        "dask_gateway_htcondor.htcondor.HTCondorClusterConfig",
         klass="dask_gateway_server.backends.base.ClusterConfig",
         help="The cluster config class to use",
         config=True,
