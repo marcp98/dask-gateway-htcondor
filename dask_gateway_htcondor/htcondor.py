@@ -82,6 +82,9 @@ class HTCondorBackend(JobQueueBackend):
         cmd = [self.submit_command, "--verbose"]
         staging_dir = self.get_staging_directory(cluster)
 
+        # ensure that staging_dir exists
+        os.makedirs(staging_dir, exist_ok=True)
+
         if worker:
             execution_script = os.path.join(staging_dir, f"run_worker_{worker.name}.sh")
             htcondor_create_execution_script(execution_script=execution_script,
