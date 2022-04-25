@@ -91,7 +91,7 @@ class HTCondorBackend(JobQueueBackend):
     def _default_status_command(self):
         return shutil.which("condor_q") or "condor_q"
 
-    def _get_htcondor_staging_dir(cluster):
+    def _get_htcondor_staging_dir(self, cluster):
         htcondor_staging_dir = cluster.config.htcondor_staging_directory.format(
             home=pwd.getpwnam(cluster.username).pw_dir, username=cluster.username
         )
