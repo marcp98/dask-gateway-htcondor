@@ -1,5 +1,5 @@
 from dask_gateway_server.backends.jobqueue.base import JobQueueBackend, JobQueueClusterConfig
-from dask_gateway_server.traitlets import default, Type
+from dask_gateway_server.traitlets import Type
 
 from traitlets import Dict, Unicode, default
 
