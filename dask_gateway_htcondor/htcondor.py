@@ -67,7 +67,7 @@ class HTCondorBackend(JobQueueBackend):
     )
 
     @default("submit_command")
-    def _default_submit_command(sel-f):
+    def _default_submit_command(self):
         return shutil.which("condor_submit") or "condor_submit"
 
     @default("cancel_command")
