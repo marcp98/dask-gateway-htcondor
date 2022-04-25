@@ -17,7 +17,7 @@ def htcondor_create_execution_script(execution_script, setup_command, execution_
 
 def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem):
     # ensure log dir is present otherwise condor_submit will fail
-    os.mkdirs(log_dir, exist_ok=True)
+    os.makedirs(log_dir, exist_ok=True)
 
     jdl_dict = {"universe": cluster_config.universe,
     "docker_image": cluster_config.docker_image,
