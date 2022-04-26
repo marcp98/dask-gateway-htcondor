@@ -22,7 +22,7 @@ def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem, en
     os.makedirs(log_dir, exist_ok=True)
 
     env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__CERT"] = "dask.crt"
-    env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__KEY"] = "dask.key"
+    env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__KEY"] = "dask.pem"
     env["DASK_DISTRIBUTED__COMM__TLS__CA_FILE"] = "dask.crt"
 
     jdl_dict = {"universe": cluster_config.universe,
