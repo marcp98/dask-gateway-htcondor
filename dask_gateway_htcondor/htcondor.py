@@ -15,7 +15,7 @@ def htcondor_create_execution_script(execution_script, setup_command, execution_
             execution_command
         ]))
 
-def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem):
+def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem, env):
     # ensure log dir is present otherwise condor_submit will fail
     os.makedirs(log_dir, exist_ok=True)
 
@@ -28,7 +28,8 @@ def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem):
     "error": f"{log_dir}/$(cluster).$(process).err",
     "log": f"{log_dir}/cluster.log",
     "request_cpus": f"{cpus}",
-    "request_memory": f"{mem}"
+    "request_memory": f"{mem}",
+    "environment": ";".join(f"{key} = {value}" for key, value in env.items())
     }
     jdl_dict.update(cluster_config.extra_jdl)
 
@@ -116,7 +117,8 @@ class HTCondorBackend(JobQueueBackend):
                 execution_script=execution_script,
                 log_dir=os.path.join(htcondor_staging_dir, f"logs_worker_{worker.name}"),
                 cpus=cluster.config.worker_cores, 
-                mem=htcondor_memory_format(cluster.config.worker_memory))
+                mem=htcondor_memory_format(cluster.config.worker_memory),
+                env=env)
         else:
             execution_script = os.path.join(htcondor_staging_dir, f"run_scheduler_{cluster.name}.sh")
             htcondor_create_execution_script(execution_script=execution_script,
@@ -127,7 +129,8 @@ class HTCondorBackend(JobQueueBackend):
                 execution_script=execution_script,
                 log_dir=os.path.join(htcondor_staging_dir, f"logs_scheduler_{cluster.name}"),
                 cpus=cluster.config.scheduler_cores,
-                mem=htcondor_memory_format(cluster.config.scheduler_memory))
+                mem=htcondor_memory_format(cluster.config.scheduler_memory),
+                env=env)
 
         return cmd, env, jdl
 
