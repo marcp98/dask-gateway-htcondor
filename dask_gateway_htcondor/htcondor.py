@@ -36,7 +36,7 @@ def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem, en
     "log": f"{log_dir}/cluster.log",
     "request_cpus": f"{cpus}",
     "request_memory": f"{mem}",
-    "environment": ";".join(f"{key} = {value}" for key, value in env.items())
+    "environment": ";".join(f"{key}={value}" for key, value in env.items())
     }
     jdl_dict.update(cluster_config.extra_jdl)
 
