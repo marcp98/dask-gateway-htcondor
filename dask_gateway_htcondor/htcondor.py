@@ -28,6 +28,7 @@ def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem, en
     jdl_dict = {"universe": cluster_config.universe,
     "docker_image": cluster_config.docker_image,
     "executable": os.path.relpath(execution_script),
+    "docker_network_type": "host",
     "should_transfer_files": "YES",
     "transfer_input_files": ",".join(tls_path),
     "when_to_transfer_output": "ON_EXIT",
