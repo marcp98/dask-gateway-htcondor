@@ -1,0 +1,60 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "dask-gateway-htcondor"
+version = "0.1.0"
+description = "HTCondor JobQueue backend for dask-gateway-server"
+readme = "README.md"
+authors = ["Manuel Giffels <giffels@gmail.com>"]
+maintainers = ["Manuel Giffels <giffels@gmail.com>"]
+license = "BSD"
+repository = "https://github.com/giffels/dask-gateway-htcondor"
+documentation = "https://dask-gateway-htcondor.readthedocs.io/en/latest/"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: BSD License",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: System Administrators",
+    "Topic :: Scientific/Engineering",
+    "Topic :: System :: Distributed Computing",
+    "Topic :: System :: Systems Administration",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    ]
+keywords = ["dask HTCondor jobqueue backend distributed cluster"]
+packages = [
+    { include = "dask_gateway_htcondor" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+dask-gateway-server = {version = "^2022.4.0", extras = ["jobqueue"]}
+
+[tool.poetry.dev-dependencies]
+pre-commit = "^2.19.0"
+
+Sphinx = { version = "^3.3.1", optional = true }
+sphinx-rtd-theme = { version = "^0.5.0", optional = true }
+sphinxcontrib-contentui = { version = "^0.2.5", optional = true }
+
+flake8 = { version = "^3.8.4", optional = true }
+flake8-bugbear = { version = "^20.11.1", optional = true }
+black = { version = "^22.3.0", markers = "implementation_name=='cpython'", optional = true }
+
+[tool.poetry.extras]
+doc = [
+    "sphinx",
+    "sphinx_rtd_theme",
+    "sphinxcontrib-contentui",
+    "myst_parser"
+]
+test = [
+    "flake8",
+    "flake8-bugbear",
+    "black"
+]
