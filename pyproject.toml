@@ -54,7 +54,10 @@ doc = [
     "myst_parser"
 ]
 test = [
+    "coverage",
     "flake8",
     "flake8-bugbear",
-    "black"
+    "black",
+    "pytest",
+    "pytest-mock"
 ]
