@@ -25,7 +25,7 @@ def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem, en
     env["DASK_DISTRIBUTED__COMM__TLS__WORKER__CERT"] = "dask.crt"
     env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__KEY"] = "dask.pem"
     env["DASK_DISTRIBUTED__COMM__TLS__WORKER__KEY"] = "dask.pem"
-    env["DASK_DISTRIBUTED__COMM__TLS__CA_FILE"] = "dask.crt"
+    env["DASK_DISTRIBUTED__COMM__TLS__CA_FILE"] = "dask.crt
 
     jdl_dict = {"universe": cluster_config.universe,
     "docker_image": cluster_config.docker_image,
