@@ -21,7 +21,7 @@ def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem, en
     # ensure log dir is present otherwise condor_submit will fail
     os.makedirs(log_dir, exist_ok=True)
 
-    if clusterconfig.tls_worker_node_prefix_path!=None :
+    if cluster_config.tls_worker_node_prefix_path!=None :
         env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__CERT"] = tls_worker_node_prefix_path+"dask.crt"
         env["DASK_DISTRIBUTED__COMM__TLS__WORKER__CERT"] = tls_worker_node_prefix_path+"dask.crt"
         env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__KEY"] = tls_worker_node_prefix_path+"dask.pem"
