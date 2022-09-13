@@ -21,7 +21,7 @@ def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem, en
     # ensure log dir is present otherwise condor_submit will fail
     os.makedirs(log_dir, exist_ok=True)
 
-    if tls_worker_node_prefix_path!=None :
+    if clusterconfig.tls_worker_node_prefix_path!=None :
         env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__CERT"] = tls_worker_node_prefix_path+"dask.crt"
         env["DASK_DISTRIBUTED__COMM__TLS__WORKER__CERT"] = tls_worker_node_prefix_path+"dask.crt"
         env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__KEY"] = tls_worker_node_prefix_path+"dask.pem"
@@ -33,7 +33,7 @@ def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem, en
     "executable": os.path.relpath(execution_script),
     "docker_network_type": "host",
     "should_transfer_files": "YES",
-    #"transfer_input_files": ",".join(tls_path),
+    "transfer_input_files": ",".join(tls_path),
     "when_to_transfer_output": "ON_EXIT",
     "output": f"{log_dir}/$(cluster).$(process).out",
     "error": f"{log_dir}/$(cluster).$(process).err",
@@ -44,8 +44,8 @@ def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem, en
     }
     jdl_dict.update(cluster_config.extra_jdl)
     
-    if tls_worker_node_prefix_path != None:
-        jdl_dict.update({"transfer_input_files" : ",".join(tls_worker_node_prefix_path)})
+   # if tls_worker_node_prefix_path != None:
+    #    jdl_dict.update({"transfer_input_files" : ",".join(tls_path)})
 
 
     jdl = "\n".join(f"{key} = {value}" for key, value in jdl_dict.items()) + "\n"
