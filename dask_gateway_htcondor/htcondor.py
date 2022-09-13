@@ -86,7 +86,7 @@ class HTCondorClusterConfig(JobQueueClusterConfig):
 
     config=True,
 )
-    tls_path = Unicode("",config=True)
+    #tls_path = Unicode("",config=True)
 
 
 class HTCondorBackend(JobQueueBackend):
