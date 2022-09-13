@@ -21,11 +21,12 @@ def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem, en
     # ensure log dir is present otherwise condor_submit will fail
     os.makedirs(log_dir, exist_ok=True)
 
-    env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__CERT"] = "dask.crt"
-    env["DASK_DISTRIBUTED__COMM__TLS__WORKER__CERT"] = "dask.crt"
-    env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__KEY"] = "dask.pem"
-    env["DASK_DISTRIBUTED__COMM__TLS__WORKER__KEY"] = "dask.pem"
-    env["DASK_DISTRIBUTED__COMM__TLS__CA_FILE"] = "dask.crt"
+    if tls_path!=None :
+        env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__CERT"] = "dask.crt"
+        env["DASK_DISTRIBUTED__COMM__TLS__WORKER__CERT"] = "dask.crt"
+        env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__KEY"] = "dask.pem"
+        env["DASK_DISTRIBUTED__COMM__TLS__WORKER__KEY"] = "dask.pem"
+        env["DASK_DISTRIBUTED__COMM__TLS__CA_FILE"] = "dask.crt" 
 
     jdl_dict = {"universe": cluster_config.universe,
     "docker_image": cluster_config.docker_image,
@@ -127,7 +128,7 @@ class HTCondorBackend(JobQueueBackend):
                 execution_script=execution_script,
                 log_dir=os.path.join(htcondor_staging_dir, f"logs_worker_{worker.name}"),
                 cpus=cluster.config.worker_cores, 
-                mem=htcondor_memory_format(cluster.config.worker_memory),
+                mem=htcondor_memory_format(clustser.config.worker_memory),
                 env=env,
                 tls_path=self.get_tls_paths(cluster))
         else:
