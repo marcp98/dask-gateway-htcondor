@@ -72,6 +72,7 @@ class HTCondorClusterConfig(JobQueueClusterConfig):
     universe = Unicode("docker", help="The universe to submit jobs to. Defaults to docker", config=True)
     docker_image = Unicode("coffeateam/coffea-dask-cc7-gateway", help="The docker image to run jobs in.", config=True)
     extra_jdl = Dict(help="Additional content of the job description file.", config=True)
+    tls_worker_node_prefix_path = Unicode("",config=True)
     htcondor_staging_directory = Unicode(
     "{home}/.dask-gateway-htcondor/",
     help="""
@@ -86,7 +87,7 @@ class HTCondorClusterConfig(JobQueueClusterConfig):
 
     config=True,
 )
-    tls_worker_node_prefix_path = Unicode("",config=True)
+    
 
 
 class HTCondorBackend(JobQueueBackend):
