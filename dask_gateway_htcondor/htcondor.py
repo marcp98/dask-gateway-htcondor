@@ -128,7 +128,7 @@ class HTCondorBackend(JobQueueBackend):
                 execution_script=execution_script,
                 log_dir=os.path.join(htcondor_staging_dir, f"logs_worker_{worker.name}"),
                 cpus=cluster.config.worker_cores, 
-                mem=htcondor_memory_format(clustser.config.worker_memory),
+                mem=htcondor_memory_format(cluster.config.worker_memory),
                 env=env,
                 tls_path=self.get_tls_paths(cluster))
         else:
