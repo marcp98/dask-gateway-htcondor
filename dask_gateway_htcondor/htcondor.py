@@ -43,9 +43,6 @@ def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem, en
     "environment": ";".join(f"{key}={value}" for key, value in env.items())
     }
     jdl_dict.update(cluster_config.extra_jdl)
-    
-    if tls_path != None:
-        jdl_dict.update({"transfer_input_files" : ",".join(tls_path)})
 
 
     jdl = "\n".join(f"{key} = {value}" for key, value in jdl_dict.items()) + "\n"
