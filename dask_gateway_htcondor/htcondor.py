@@ -22,11 +22,11 @@ def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem, en
     os.makedirs(log_dir, exist_ok=True)
 
     if cluster_config.tls_worker_node_prefix_path!=None :
-        env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__CERT"] = tls_worker_node_prefix_path+"dask.crt"
-        env["DASK_DISTRIBUTED__COMM__TLS__WORKER__CERT"] = tls_worker_node_prefix_path+"dask.crt"
-        env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__KEY"] = tls_worker_node_prefix_path+"dask.pem"
-        env["DASK_DISTRIBUTED__COMM__TLS__WORKER__KEY"] = tls_worker_node_prefix_path+"dask.pem"
-        env["DASK_DISTRIBUTED__COMM__TLS__CA_FILE"] = tls_worker_node_prefix_path+"dask.crt" 
+        env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__CERT"] = cluster_config.tls_worker_node_prefix_path+"dask.crt"
+        env["DASK_DISTRIBUTED__COMM__TLS__WORKER__CERT"] = cluster_config.tls_worker_node_prefix_path+"dask.crt"
+        env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__KEY"] = cluster_config.tls_worker_node_prefix_path+"dask.pem"
+        env["DASK_DISTRIBUTED__COMM__TLS__WORKER__KEY"] = cluster_config.tls_worker_node_prefix_path+"dask.pem"
+        env["DASK_DISTRIBUTED__COMM__TLS__CA_FILE"] = cluster_config.tls_worker_node_prefix_path+"dask.crt" 
 
     jdl_dict = {"universe": cluster_config.universe,
     "docker_image": cluster_config.docker_image,
