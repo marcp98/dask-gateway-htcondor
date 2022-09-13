@@ -17,7 +17,7 @@ def htcondor_create_execution_script(execution_script, setup_command, execution_
             execution_command
         ]))
 
-def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem, env, tls_worker_node_prefix_path):
+def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem, env, tls_path):
     # ensure log dir is present otherwise condor_submit will fail
     os.makedirs(log_dir, exist_ok=True)
 
@@ -136,7 +136,7 @@ class HTCondorBackend(JobQueueBackend):
                 cpus=cluster.config.worker_cores, 
                 mem=htcondor_memory_format(cluster.config.worker_memory),
                 env=env,
-                tls_worker_node_prefix_path=self.get_tls_paths(cluster))
+                tls_path=self.get_tls_paths(cluster))
         else:
             execution_script = os.path.join(htcondor_staging_dir, f"run_scheduler_{cluster.name}.sh")
             htcondor_create_execution_script(execution_script=execution_script,
@@ -149,7 +149,7 @@ class HTCondorBackend(JobQueueBackend):
                 cpus=cluster.config.scheduler_cores,
                 mem=htcondor_memory_format(cluster.config.scheduler_memory),
                 env=env,
-                tls_worker_node_prefix_path=self.get_tls_paths(cluster))
+                tls_path=self.get_tls_paths(cluster))
 
         return cmd, env, jdl
 
