@@ -22,18 +22,18 @@ def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem, en
     os.makedirs(log_dir, exist_ok=True)
 
     if tls_path!=None :
-        env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__CERT"] = "dask.crt"
-        env["DASK_DISTRIBUTED__COMM__TLS__WORKER__CERT"] = "dask.crt"
-        env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__KEY"] = "dask.pem"
-        env["DASK_DISTRIBUTED__COMM__TLS__WORKER__KEY"] = "dask.pem"
-        env["DASK_DISTRIBUTED__COMM__TLS__CA_FILE"] = "dask.crt" 
+        env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__CERT"] = tls_path+"dask.crt"
+        env["DASK_DISTRIBUTED__COMM__TLS__WORKER__CERT"] = tls_path+"dask.crt"
+        env["DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__KEY"] = tls_path+"dask.pem"
+        env["DASK_DISTRIBUTED__COMM__TLS__WORKER__KEY"] = tls_path+"dask.pem"
+        env["DASK_DISTRIBUTED__COMM__TLS__CA_FILE"] = tls_path+"dask.crt" 
 
     jdl_dict = {"universe": cluster_config.universe,
     "docker_image": cluster_config.docker_image,
     "executable": os.path.relpath(execution_script),
     "docker_network_type": "host",
     "should_transfer_files": "YES",
-    "transfer_input_files": ",".join(tls_path),
+    #"transfer_input_files": ",".join(tls_path),
     "when_to_transfer_output": "ON_EXIT",
     "output": f"{log_dir}/$(cluster).$(process).out",
     "error": f"{log_dir}/$(cluster).$(process).err",
@@ -43,6 +43,10 @@ def htcondor_create_jdl(cluster_config, execution_script, log_dir, cpus, mem, en
     "environment": ";".join(f"{key}={value}" for key, value in env.items())
     }
     jdl_dict.update(cluster_config.extra_jdl)
+    
+    if tls_path != None:
+        jdl_dict.update({transfer_input_files : ",".join(tls_path)})
+
 
     jdl = "\n".join(f"{key} = {value}" for key, value in jdl_dict.items()) + "\n"
     jdl += "queue 1\n"
@@ -79,8 +83,10 @@ class HTCondorClusterConfig(JobQueueClusterConfig):
     - home (the user's home directory)
     - username (the user's name)
     """,
+
     config=True,
 )
+    tls_path = Unicode("",config=True)
 
 
 class HTCondorBackend(JobQueueBackend):
