@@ -136,7 +136,7 @@ class HTCondorBackend(JobQueueBackend):
                 cpus=cluster.config.worker_cores, 
                 mem=htcondor_memory_format(cluster.config.worker_memory),
                 env=env,
-                tls_path=self.get_tls_paths(cluster))
+                tls_worker_node_prefix_path=self.get_tls_paths(cluster))
         else:
             execution_script = os.path.join(htcondor_staging_dir, f"run_scheduler_{cluster.name}.sh")
             htcondor_create_execution_script(execution_script=execution_script,
@@ -149,7 +149,7 @@ class HTCondorBackend(JobQueueBackend):
                 cpus=cluster.config.scheduler_cores,
                 mem=htcondor_memory_format(cluster.config.scheduler_memory),
                 env=env,
-                tls_path=self.get_tls_paths(cluster))
+                tls_worker_node_prefix_path=self.get_tls_paths(cluster))
 
         return cmd, env, jdl
 
