@@ -152,11 +152,11 @@ class HTCondorBackend(JobQueueBackend):
             logging.basicConfig(filename="logfile.log",
                     format='%(asctime)s %(message)s',
                     filemode='w')
-            print(htcondor_staging_directory)
+            print(htcondor_staging_dir)
             logger = logging.getLogger()
             logger.setLevel(logging.DEBUG)
-            logger.debug(htcondor_staging_directory)
-            logging.warning(htcondor_staging_directory)
+            logger.debug(htcondor_staging_dir)
+            logging.warning(htcondor_staging_dir)
             execution_script = os.path.join(htcondor_staging_dir, f"run_scheduler_{cluster.name}.sh")
             htcondor_create_execution_script(execution_script=execution_script,
                 setup_command=cluster.config.scheduler_setup,
