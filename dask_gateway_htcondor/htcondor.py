@@ -74,7 +74,7 @@ class HTCondorClusterConfig(JobQueueClusterConfig):
     extra_jdl = Dict(help="Additional content of the job description file.", config=True)
     tls_worker_node_prefix_path = Unicode("",config=True)
     htcondor_staging_directory = Unicode(
-    "{home}/.dask-gateway-htcondor/",
+    "/{home}/.dask-gateway-htcondor/",
     help="""
     The htcondor staging directory for storing files before the job starts.
     A subdirectory will be created for each new cluster which will store
@@ -87,6 +87,7 @@ class HTCondorClusterConfig(JobQueueClusterConfig):
 
     config=True,
 )
+    print(htcondor_staging_directory)
     
 
 
@@ -139,6 +140,7 @@ class HTCondorBackend(JobQueueBackend):
                 env=env,
                 tls_path=self.get_tls_paths(cluster))
         else:
+            print(htcondor_staging_dir)
             execution_script = os.path.join(htcondor_staging_dir, f"run_scheduler_{cluster.name}.sh")
             htcondor_create_execution_script(execution_script=execution_script,
                 setup_command=cluster.config.scheduler_setup,
