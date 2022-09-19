@@ -5,7 +5,7 @@ from traitlets import Dict, Unicode, default
 
 from enum import Enum
 import math, os, pwd, re, shutil
-
+import logging
 def htcondor_create_execution_script(execution_script, setup_command, execution_command):
     # write script to staging_dir
     with open(execution_script, "w") as f:
@@ -88,6 +88,7 @@ class HTCondorClusterConfig(JobQueueClusterConfig):
     config=True,
 )
     print(htcondor_staging_directory)
+    logging.warning(htcondor_staging_directory)
     
 
 
@@ -141,6 +142,7 @@ class HTCondorBackend(JobQueueBackend):
                 tls_path=self.get_tls_paths(cluster))
         else:
             print(htcondor_staging_dir)
+            logging.warning(htcondor_staging_dir)
             execution_script = os.path.join(htcondor_staging_dir, f"run_scheduler_{cluster.name}.sh")
             htcondor_create_execution_script(execution_script=execution_script,
                 setup_command=cluster.config.scheduler_setup,
